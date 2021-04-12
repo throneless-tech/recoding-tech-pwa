@@ -1,7 +1,6 @@
 // base imports
 import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
-import { sanity, imageUrlBuilder } from './sanity';
+import { sanity } from './sanity';
 
 // Material UI imports
 import { makeStyles } from '@material-ui/core/styles';
