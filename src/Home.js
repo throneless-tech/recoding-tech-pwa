@@ -8,6 +8,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
@@ -59,20 +60,19 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('lg')]: {
       maxHeight: 200,
     },
-  }
+  },
+  link: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    padding: '5px 10px',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark,
+    },
+  },
 }));
 
 function Home() {
   const classes = useStyles();
-
-  // in this one line, data is fetched from sanity via the sanity client and
-  // stored into application state via react-query!
-  const { data: madLibs } = useQuery('madLibsList', () => sanity.fetch(query));
-
-  // if we don't have madLibs yet, then the data must be loading
-  if (!madLibs) {
-    return <h1>Loading…</h1>;
-  }
 
   return (
     <Box className={classes.border}>
@@ -101,6 +101,11 @@ function Home() {
           <Box mt={4}>
             <Typography component="div" variant="body2" gutterBottom>
               In response, <span className={classes.bold}>recoding tech</span> is working to curate and synthesize knowledge, research, and ideas to help better understand the harms resulting from Big Tech’s code and business models, as well as what types of oversight, regulations, and laws can create better outcomes for our democracies and societies.
+            </Typography>
+          </Box>
+          <Box textAlign="center" mt={4}>
+            <Typography component="div" variant="body1" gutterBottom>
+              <Link href='/signup' className={classes.link}>Sign up here for updates</Link>
             </Typography>
           </Box>
           {/*<Box textAlign="center" mt={4}>
