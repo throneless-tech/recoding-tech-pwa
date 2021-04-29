@@ -1,11 +1,11 @@
 {
   "root": true,
+  "api": {
+    "dataset": "production",
+    "projectId": "38slxoly"
+  },
   "project": {
     "name": "Recoding Tech"
-  },
-  "api": {
-    "projectId": "38slxoly",
-    "dataset": "production"
   },
   "plugins": [
     "@sanity/base",

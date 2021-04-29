@@ -1,7 +1,5 @@
 // base imports
 import React from 'react';
-import { useQuery } from 'react-query';
-import { sanity } from './sanity';
 
 // Material UI imports
 import { makeStyles } from '@material-ui/core/styles';

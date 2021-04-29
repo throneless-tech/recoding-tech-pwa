@@ -1,19 +1,13 @@
-import React from 'react';
-import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import BlockContent from '@sanity/block-content-to-react';
-import { sanity } from './sanity';
+import React, { useEffect, useState } from 'react';
+import sanityClient from "./client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 // Material UI imports
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 // images
@@ -67,12 +61,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const query = `
-  *[ _type == 'signup' ] { email, background, location, policy, uses }
-`;
-
 function Signup() {
   const classes = useStyles();
+
+  const [loading, setLoading] = useState(true);
 
   // validation for the form fields
   const validationSchema = Yup.object({
@@ -85,6 +77,7 @@ function Signup() {
 
   // start off fields as blank
   const initialValues = {
+    _type: "subscriber",
     email: "",
     background: "",
     location: "",
@@ -92,39 +85,16 @@ function Signup() {
     uses: "",
   };
 
-  // what do on form submit FIXME
+  // send data to Sanity CMS via API
   const onSubmit = (values) => {
-    alert(JSON.stringify(values, null, 2));
+    console.log(values);
+    const request = { ...values };
+    sanityClient.create(request).then(() => {
+      alert(`Your response has been recorded.`);
+    });
   };
 
-
   const renderError = (message) => <p className={classes.help}>{message}</p>;
-
-  // in this one line, data is fetched from sanity via the sanity client and
-  // stored into application state via react-query!
-  const { data: signup } = useQuery('signup', () => sanity.fetch(query));
-
-  // this will store the state of the answers of this mad lib
-  const [answers, setAnswers] = useState(
-    // if the items exist in localStorage, then
-    localStorage.getItem(signup)
-      ? // then set the initial state to that value
-        JSON.parse(localStorage.getItem(signup))
-      : // otherwise, set the initial state to an empty object
-        {},
-  );
-
-  // this is a react "effect" hook: https://reactjs.org/docs/hooks-effect.html
-  // we use this to watch for changes in the `slug` or `answers` variables and
-  // update local storage when those change.
-  useEffect(() => {
-    localStorage.setItem(signup, JSON.stringify(answers));
-  }, [signup, answers]);
-
-  // if we don't have a signup form yet, then the data must be loading
-  if (!signup) {
-    return <h1>Loading…</h1>;
-  }
 
   return (
     <Box className={classes.border}>
@@ -217,19 +187,6 @@ function Signup() {
               </Box>
             </Form>
           </Formik>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={() => {
-              // we reset the state on click after the users confirms it's okay.
-              if (window.confirm('Are you sure you want to reset?')) {
-                setAnswers({});
-              }
-            }}
-          >
-            Reset
-          </Button>
-
           {/* this is a simple link back to the homepage */}
           <Link href="/">
             ← Back

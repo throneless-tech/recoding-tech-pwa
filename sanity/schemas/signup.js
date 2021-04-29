@@ -30,13 +30,8 @@ const signup = {
     {
       title: 'How could a resource like recoding.tech be most useful to you and your work?',
       name: 'uses',
-      type: 'array',
+      type: 'string',
       validation: (Rule) => Rule.required(),
-      of: [
-        {
-          type: 'block'
-        }
-      ]
     },
   ],
 };

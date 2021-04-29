@@ -1,5 +1,5 @@
 // base imports
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './theme';
 
