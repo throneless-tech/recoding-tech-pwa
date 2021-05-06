@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import sanityClient from "./client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -63,8 +63,6 @@ const useStyles = makeStyles(theme => ({
 
 function Signup() {
   const classes = useStyles();
-
-  const [loading, setLoading] = useState(true);
 
   // validation for the form fields
   const validationSchema = Yup.object({
